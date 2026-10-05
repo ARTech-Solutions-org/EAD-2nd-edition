@@ -1,7 +1,7 @@
 import { useDeferredValue, useEffect, useState, type FormEvent } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
-import { BadgePair, BadgeTemplate, type BadgeFace } from "../components/badge/BadgeTemplate";
+import { BadgePair, BadgeTemplate } from "../components/badge/BadgeTemplate";
 import { EadWordmark } from "../components/EadBrand";
 import { LanguageSwitch, useLanguage } from "../i18n/EadLanguage";
 import type { EadLanguage, EadRegistration } from "../../../shared/ead";
@@ -125,9 +125,8 @@ export default function Staff() {
             {printPhase === "preview" ? <>
               <div className="staff-print-preview-faces">
                 <figure><BadgeTemplate attendee={printTarget} face="front" language={printTarget.language} /><figcaption>{t("front")}</figcaption></figure>
-                <figure><BadgeTemplate attendee={printTarget} face="back" language={printTarget.language} /><figcaption>{t("back")}</figcaption></figure>
               </div>
-              <div className="print-preview-specs"><span>{t("paperSize")}<strong>74 × 105 mm</strong></span><span>{t("printScale")}<strong>{t("printScaleValue")}</strong></span><span>{t("printTwoSides")}</span></div>
+              <div className="print-preview-specs"><span>{t("paperSize")}<strong>74 × 105 mm</strong></span><span>{t("printScale")}<strong>{t("printScaleValue")}</strong></span><span>{t("printOneSide")}</span></div>
               <div className="detail-actions"><button className="button button-secondary" type="button" onClick={closePrintPreview}>{t("cancel")}</button><button className="button button-primary" type="button" onClick={openBrowserPrint}>{t("printBadge")}</button></div>
             </> : <>
               <div className="print-confirm-copy"><p>{t("physicalCheck")}</p><strong>{printTarget.name}</strong></div>
@@ -258,7 +257,7 @@ function RegistrationDetail({ id, onPrint }: { id: number; onPrint: (record: Ead
   const [overrideDuplicate, setOverrideDuplicate] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [form, setForm] = useState<RegistrationForm | null>(null);
-  const [face, setFace] = useState<BadgeFace>("front");
+
   const update = trpc.registration.update.useMutation({
     onSuccess: async () => { await Promise.all([utils.registration.byId.invalidate({ id }), utils.registration.list.invalidate(), utils.registration.stats.invalidate()]); toast.success(t("saved")); setEditing(false); setOverrideDuplicate(false); },
     onError: (error) => setSaveError(error.data?.code === "CONFLICT" ? t("duplicateMessage") : t("saveError")),
@@ -287,7 +286,7 @@ function RegistrationDetail({ id, onPrint }: { id: number; onPrint: (record: Ead
           <div className="detail-actions"><button className="button button-secondary" type="button" onClick={() => { setSaveError(""); setOverrideDuplicate(false); setEditing(true); }}>{t("editInformation")}</button><button className="button button-primary" type="button" onClick={() => onPrint(record)}>{record.badgePrinted ? t("reprint") : t("printBadge")}</button></div>
         </>}
       </section>
-      <section className="admin-panel detail-badge-panel"><div className="panel-heading-row"><div><div className="section-overline">{t("badgeReady")}</div><h3>{record.registrationId}</h3></div><span className="badge-size-label">74 × 105 mm</span></div><div className="detail-badge-preview"><BadgeTemplate attendee={record} face={face} language={record.language} /></div><div className="face-switch detail-face-switch" role="group" aria-label={t("badgeFace")}><button className={face === "front" ? "active" : ""} type="button" onClick={() => setFace("front")}>{t("front")}</button><button className={face === "back" ? "active" : ""} type="button" onClick={() => setFace("back")}>{t("back")}</button></div></section>
+      <section className="admin-panel detail-badge-panel"><div className="panel-heading-row"><div><div className="section-overline">{t("badgeReady")}</div><h3>{record.registrationId}</h3></div><span className="badge-size-label">74 × 105 mm</span></div><div className="detail-badge-preview"><BadgeTemplate attendee={record} face="front" language={record.language} /></div></section>
     </div>
   );
 }
@@ -308,8 +307,8 @@ function Settings() {
     <div className="settings-grid">
       <section className="admin-panel settings-card"><div className="section-overline">{t("eventInformation")}</div><h2>{t("eventName")}</h2><div className="settings-fact"><span>{t("eventDates")}</span><strong>{t("eventDate")} · {t("cityLine")}</strong></div><div className="settings-fact"><span>{t("secure")}</span><strong>{t("signInHint")}</strong></div></section>
       <section className="admin-panel settings-card"><div className="section-overline">{t("languageSettings")}</div><h2>{t("switchLanguage")}</h2><div className="language-preference"><button className={language === "en" ? "selected" : ""} type="button" onClick={() => setLanguage("en")}>English</button><button className={language === "ar" ? "selected" : ""} type="button" onClick={() => setLanguage("ar")}>العربية</button></div></section>
-      <section className="admin-panel settings-card"><div className="section-overline">{t("badgeTemplate")}</div><h2>{t("templateReference")}</h2><img className="reference-art-image" src={REFERENCE_ART} alt={t("templateReference")} /><div className="print-setting-rows"><div><span>{t("paperSize")}</span><strong>7.4 × 10.5 cm · 74 × 105 mm</strong></div><div><span>{t("printScale")}</span><strong>{t("printScaleValue")}</strong></div><div><span>{t("twoPages")}</span><strong>{t("printTwoSides")}</strong></div></div></section>
-      <section className="admin-panel settings-card"><div className="section-overline">{t("printingSettings")}</div><h2>{t("printingSettings")}</h2><div className="print-setting-rows"><div><span>{t("paperSize")}</span><strong>74 × 105 mm</strong></div><div><span>{t("printScale")}</span><strong>{t("printScaleValue")}</strong></div><div><span>{t("twoPages")}</span><strong>{t("printTwoSides")}</strong></div></div></section>
+      <section className="admin-panel settings-card"><div className="section-overline">{t("badgeTemplate")}</div><h2>{t("templateReference")}</h2><img className="reference-art-image" src={REFERENCE_ART} alt={t("templateReference")} /><div className="print-setting-rows"><div><span>{t("paperSize")}</span><strong>7.4 × 10.5 cm · 74 × 105 mm</strong></div><div><span>{t("printScale")}</span><strong>{t("printScaleValue")}</strong></div><div><span>{t("onePage")}</span><strong>{t("printOneSide")}</strong></div></div></section>
+      <section className="admin-panel settings-card"><div className="section-overline">{t("printingSettings")}</div><h2>{t("printingSettings")}</h2><div className="print-setting-rows"><div><span>{t("paperSize")}</span><strong>74 × 105 mm</strong></div><div><span>{t("printScale")}</span><strong>{t("printScaleValue")}</strong></div><div><span>{t("onePage")}</span><strong>{t("printOneSide")}</strong></div></div></section>
       <section className="admin-panel settings-card lanyard-settings"><div className="lanyard-setting-header"><div><div className="section-overline">{t("lanyardPreview")}</div><h2>{t("lanyardPreview")}</h2></div><span>{t("lanyardSize")}</span></div><div className="lanyard-visual" style={{ backgroundImage: `url("${LANYARD_ART}")` }} role="img" aria-label={t("lanyardPattern")} /><p>{t("lanyardPattern")}</p></section>
     </div>
   );

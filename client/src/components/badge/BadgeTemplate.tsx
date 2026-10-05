@@ -43,12 +43,9 @@ export function BadgeTemplate({ attendee, face, language }: { attendee: BadgeAtt
 export function BadgePair({ attendee, language }: { attendee: BadgeAttendee; language?: Language }) {
   const selectedLanguage = language ?? attendee.language;
   return (
-    <div className="print-pair" aria-label={selectedLanguage === "ar" ? "طباعة وجهي الشارة" : "Print both sides of the badge"}>
+    <div className="print-pair" aria-label={selectedLanguage === "ar" ? "طباعة الشارة" : "Print badge"}>
       <div className="print-sheet print-sheet-front">
         <BadgeTemplate attendee={attendee} face="front" language={selectedLanguage} />
-      </div>
-      <div className="print-sheet print-sheet-back">
-        <BadgeTemplate attendee={attendee} face="back" language={selectedLanguage} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
-import { BadgePair, BadgeTemplate, type BadgeFace } from "../components/badge/BadgeTemplate";
+import { BadgePair, BadgeTemplate } from "../components/badge/BadgeTemplate";
 import { DeskUtility, EadWordmark } from "../components/EadBrand";
 import { LanguageSwitch, useLanguage } from "../i18n/EadLanguage";
 import type { EadRegistration, RegistrationInput } from "../../../shared/ead";
@@ -22,7 +22,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [duplicate, setDuplicate] = useState(false);
   const [attendee, setAttendee] = useState<CreatedRegistration | null>(null);
-  const [face, setFace] = useState<BadgeFace>("front");
+
   const [zoom, setZoom] = useState(1);
   const [printed, setPrinted] = useState(false);
   const [printedAt, setPrintedAt] = useState<Date | null>(null);
@@ -48,7 +48,7 @@ export default function Home() {
   const createRegistration = trpc.registration.create.useMutation({
     onSuccess: (created) => {
       setAttendee(created);
-      setFace("front");
+
       setZoom(1);
       setDuplicate(false);
       setErrorMessage("");
@@ -224,16 +224,12 @@ export default function Home() {
               <div className="badge-ready-card">
                 <div className="badge-card-head"><div><span className="ready-indicator" />{t("badgeReady")}</div><span className="badge-size-label">74 × 105 mm</span></div>
                 <div className="badge-preview-stage">
-                  <div style={{ transform: `scale(${zoom})`, transition: "transform 180ms ease" }}><BadgeTemplate attendee={attendee} face={face} language={language} /></div>
+                  <div style={{ transform: `scale(${zoom})`, transition: "transform 180ms ease" }}><BadgeTemplate attendee={attendee} face="front" language={language} /></div>
                 </div>
                 <div className="badge-tools-row">
-                  <div className="face-switch" role="group" aria-label={t("badgeFace")}>
-                    <button className={face === "front" ? "active" : ""} type="button" onClick={() => setFace("front")}>{t("front")}</button>
-                    <button className={face === "back" ? "active" : ""} type="button" onClick={() => setFace("back")}>{t("back")}</button>
-                  </div>
                   <label className="zoom-control"><span className="sr-only">{t("zoom")}</span><span aria-hidden="true">−</span><input type="range" min="0.8" max="1.25" step="0.05" value={zoom} onChange={(event) => setZoom(Number(event.target.value))} /><span aria-hidden="true">+</span></label>
                 </div>
-                <div className="badge-print-copy">{t("printTwoSides")}</div>
+                <div className="badge-print-copy">{t("printOneSide")}</div>
               </div>
             </div>
             <div className="confirmation-actions">
