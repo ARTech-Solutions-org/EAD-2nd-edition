@@ -1,10 +1,10 @@
 import { COOKIE_NAME } from "@shared/const";
-import { registrationInputSchema, registrationListSchema, registrationUpdateSchema } from "../shared/ead";
+import { registrationInputSchema, registrationListSchema, registrationUpdateSchema } from "../shared/ead.js";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { getSessionCookieOptions } from "./_core/cookies";
-import { systemRouter } from "./_core/systemRouter";
-import { adminProcedure, publicProcedure, router } from "./_core/trpc";
+import { getSessionCookieOptions } from "./_core/cookies.js";
+import { systemRouter } from "./_core/systemRouter.js";
+import { adminProcedure, publicProcedure, router } from "./_core/trpc.js";
 import {
   createRegistration,
   DuplicateEmailError,
@@ -15,10 +15,10 @@ import {
   markPrintedByStaff,
   markPrintedByToken,
   updateRegistration,
-} from "./eadDb";
+} from "./eadDb.js";
 
-import { ENV } from "./_core/env";
-import { sdk } from "./_core/sdk";
+import { ENV } from "./_core/env.js";
+import { sdk } from "./_core/sdk.js";
 
 function publicRegistrationError(error: unknown): never {
   if (error instanceof DuplicateEmailError) {

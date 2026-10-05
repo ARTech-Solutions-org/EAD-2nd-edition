@@ -1,9 +1,9 @@
 import { randomBytes } from "node:crypto";
 import { and, asc, desc, eq, gte, like, lt, or, sql, type SQL } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { registrations, type Registration } from "../drizzle/schema";
-import type { EadRegistration, RegistrationInput, RegistrationListInput, RegistrationUpdateInput } from "../shared/ead";
-import { getDb } from "./db";
+import { registrations, type Registration } from "../drizzle/schema.js";
+import type { EadRegistration, RegistrationInput, RegistrationListInput, RegistrationUpdateInput } from "../shared/ead.js";
+import { getDb } from "./db.js";
 
 export class DuplicateEmailError extends Error {
   constructor() {
