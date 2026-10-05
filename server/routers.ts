@@ -39,7 +39,7 @@ export const appRouter = router({
       if (input.username !== ENV.adminUsername || input.password !== ENV.adminPassword) {
         throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid username or password" });
       }
-      const token = await sdk.createSessionToken("admin", { name: "Admin" });
+      const token = await sdk.createSessionToken("admin", { openId: "admin", appId: ENV.appId, name: "Admin" });
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.cookie(COOKIE_NAME, token, cookieOptions);
       return { success: true };
