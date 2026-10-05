@@ -44,7 +44,7 @@ export default function Staff() {
     setPrintPhase("printing");
     const afterPrint = () => {
       setPrintStarted(false);
-      setPrintPhase("confirm");
+      confirmStaffPrint();
     };
     window.addEventListener("afterprint", afterPrint, { once: true });
     window.setTimeout(() => window.print(), 80);
