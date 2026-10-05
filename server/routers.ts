@@ -1,4 +1,4 @@
-import { COOKIE_NAME } from "@shared/const";
+import { COOKIE_NAME } from "../shared/const.js";
 import { registrationInputSchema, registrationListSchema, registrationUpdateSchema } from "../shared/ead.js";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
