@@ -31,8 +31,6 @@ export function BadgeTemplate({ attendee, face, language }: { attendee: BadgeAtt
         <div className="badge-attendee-panel">
           <div className="badge-attendee-name">{attendee.name || (selectedLanguage === "ar" ? "اسم الحاضر" : "Attendee name")}</div>
           <div className="badge-attendee-company">{attendee.company || (selectedLanguage === "ar" ? "الشركة" : "Company")}</div>
-          {attendee.title && <div className="badge-attendee-title">{attendee.title}</div>}
-          <div className="badge-attendee-id">{attendee.registrationId}</div>
         </div>
       )}
       <span className="sr-only">{attendee.title} · {attendee.email}</span>
