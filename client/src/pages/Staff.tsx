@@ -93,7 +93,7 @@ export default function Staff() {
         <nav className="admin-nav" aria-label={t("eventOperations")}>
           <NavItem href="/admin" active={active === "dashboard"} label={t("dashboard")} icon="⌂" />
           <NavItem href="/admin/registrations" active={active === "registrations"} label={t("registrations")} icon="▤" />
-          <NavItem href="/admin/badges" active={active === "badges"} label={t("badgePrinting")} icon="▱" />
+
           <NavItem href="/admin/settings" active={active === "settings"} label={t("settings")} icon="⚙" />
         </nav>
         <div className="admin-sidebar-bottom"><div className="admin-secure"><span />{t("secure")}</div><button className="sidebar-logout" type="button" onClick={async () => { await logout.mutateAsync(); await utils.auth.me.invalidate(); setPath("/admin/login"); }}>{t("signOut")} <span aria-hidden="true">↗</span></button></div>
@@ -113,7 +113,7 @@ export default function Staff() {
         <nav className="admin-mobile-nav" aria-label={t("eventOperations")}>
           <NavItem href="/admin" active={active === "dashboard"} label={t("dashboard")} icon="⌂" />
           <NavItem href="/admin/registrations" active={active === "registrations"} label={t("registrations")} icon="▤" />
-          <NavItem href="/admin/badges" active={active === "badges"} label={t("badgePrinting")} icon="▱" />
+
           <NavItem href="/admin/settings" active={active === "settings"} label={t("settings")} icon="⚙" />
         </nav>
       </div>
