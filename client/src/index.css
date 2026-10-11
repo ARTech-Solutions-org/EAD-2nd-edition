@@ -38,6 +38,8 @@
 }
 
 :root {
+  --badge-print-top: 0mm;
+  --badge-print-left: 0mm;
   --wine: #821d30;
   --wine-dark: #681627;
   --wine-deep: #511320;
@@ -515,27 +517,195 @@ button { color: inherit; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 @page {
-  size: 74mm 105mm;
+  size: A4 portrait;
   margin: 0;
 }
 
 @media print {
-  @page { size: 74mm 105mm; margin: 0; }
-  html, body, #root { width: 74mm !important; min-width: 0 !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; }
-  #root { display: block !important; }
-  body * { visibility: hidden !important; }
-  .registration-shell, .admin-app { display: block !important; width: 74mm !important; min-width: 0 !important; min-height: 0 !important; height: auto !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; }
-  .registration-shell > .event-panel, .registration-shell > .desk-main, .admin-app > .admin-sidebar, .admin-app > .admin-main { display: none !important; }
-  .print-root, .print-root * { visibility: visible !important; }
-  .print-root { display: block !important; position: static !important; inset: auto !important; width: 74mm !important; height: auto !important; margin: 0 !important; padding: 0 !important; background: transparent !important; }
-  .print-pair { display: block !important; width: 74mm !important; margin: 0 !important; padding: 0 !important; background: transparent !important; }
-  .print-sheet { position: relative !important; display: block !important; width: 74mm !important; height: 105mm !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; break-inside: avoid !important; page-break-inside: avoid !important; page-break-after: always; break-after: page; background: transparent !important; }
-  .print-sheet:last-child { page-break-after: auto; break-after: auto; }
-  .print-sheet .badge-card, .print-root .badge-card, .badge-no-art { width: 74mm !important; height: 105mm !important; min-width: 74mm !important; max-width: 74mm !important; min-height: 105mm !important; max-height: 105mm !important; aspect-ratio: 74 / 105 !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; transform: none !important; background: transparent !important; background-color: transparent !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-  .print-sheet .badge-art, .print-root .badge-art, .badge-art { display: none !important; visibility: hidden !important; opacity: 0 !important; width: 0 !important; height: 0 !important; }
-  .print-sheet .badge-attendee-panel { position: absolute !important; inset-inline: 7% !important; top: 31.5% !important; bottom: 24.5% !important; gap: 2mm !important; padding: 2mm !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; box-sizing: border-box !important; }
-  .print-sheet .badge-attendee-name { display: block !important; max-width: 100% !important; font-size: 4.8mm !important; line-height: 1.15 !important; font-weight: 800 !important; color: #000000 !important; text-align: center !important; word-break: break-word !important; overflow-wrap: anywhere !important; }
-  .print-sheet .badge-attendee-company { display: block !important; max-width: 100% !important; margin-top: 1.5mm !important; font-size: 3.2mm !important; line-height: 1.2 !important; font-weight: 600 !important; color: #000000 !important; text-align: center !important; word-break: break-word !important; overflow-wrap: anywhere !important; white-space: normal !important; text-overflow: clip !important; }
-  .print-sheet .badge-attendee-title { font-size: 2.5mm !important; color: #000000 !important; }
-  .print-sheet .badge-attendee-id { margin-top: 1mm !important; font-size: 1.7mm !important; color: #000000 !important; }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  html, body {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    position: relative !important;
+  }
+  #root {
+    display: block !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    position: relative !important;
+  }
+  body * {
+    visibility: hidden !important;
+  }
+  .registration-shell, .admin-app {
+    display: block !important;
+    position: relative !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+  .registration-shell > .event-panel,
+  .registration-shell > .desk-main,
+  .admin-app > .admin-sidebar,
+  .admin-app > .admin-main {
+    display: none !important;
+  }
+  .print-root, .print-root * {
+    visibility: visible !important;
+  }
+  .print-root {
+    display: block !important;
+    position: fixed !important;
+    top: var(--badge-print-top, 0mm) !important;
+    left: var(--badge-print-left, 0mm) !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 74mm !important;
+    height: 104.5mm !important;
+    max-height: 105mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    direction: ltr !important;
+    background: transparent !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  .print-pair {
+    display: block !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 74mm !important;
+    height: 104.5mm !important;
+    max-height: 105mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    background: transparent !important;
+  }
+  .print-sheet {
+    position: relative !important;
+    display: block !important;
+    width: 74mm !important;
+    height: 104.5mm !important;
+    max-height: 105mm !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    background: transparent !important;
+  }
+  .print-sheet .badge-card,
+  .print-root .badge-card,
+  .badge-no-art {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 74mm !important;
+    height: 104.5mm !important;
+    min-width: 74mm !important;
+    max-width: 74mm !important;
+    min-height: 104.5mm !important;
+    max-height: 105mm !important;
+    aspect-ratio: 74 / 105 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .print-sheet .badge-art,
+  .print-root .badge-art,
+  .badge-art {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .print-sheet .badge-attendee-panel {
+    position: absolute !important;
+    inset-inline: 7% !important;
+    top: 31.5% !important;
+    bottom: 24.5% !important;
+    gap: 2mm !important;
+    padding: 2mm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  .print-sheet .badge-attendee-name {
+    display: block !important;
+    max-width: 100% !important;
+    font-size: 4.8mm !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+  .print-sheet .badge-attendee-company {
+    display: block !important;
+    max-width: 100% !important;
+    margin-top: 1.5mm !important;
+    font-size: 3.2mm !important;
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+    text-overflow: clip !important;
+  }
+  .print-sheet .badge-attendee-title {
+    font-size: 2.5mm !important;
+    color: #000000 !important;
+  }
+  .print-sheet .badge-attendee-id {
+    margin-top: 1mm !important;
+    font-size: 1.7mm !important;
+    color: #000000 !important;
+  }
 }
+
