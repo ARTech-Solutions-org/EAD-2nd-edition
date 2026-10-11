@@ -39,7 +39,7 @@
 
 :root {
   --badge-print-top: 0mm;
-  --badge-print-left: 0mm;
+  --badge-print-offset-x: 0mm;
   --wine: #821d30;
   --wine-dark: #681627;
   --wine-deep: #511320;
@@ -576,7 +576,7 @@ button { color: inherit; }
     display: block !important;
     position: fixed !important;
     top: var(--badge-print-top, 0mm) !important;
-    left: var(--badge-print-left, 0mm) !important;
+    left: calc(50% - 37mm + var(--badge-print-offset-x, 0mm)) !important;
     right: auto !important;
     bottom: auto !important;
     width: 74mm !important;
