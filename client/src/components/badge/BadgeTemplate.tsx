@@ -1,3 +1,4 @@
+import React from "react";
 import type { EadRegistration } from "../../../../shared/ead";
 import type { Language } from "../../i18n/EadLanguage";
 
@@ -7,7 +8,7 @@ const BACK_ART = "/assets/ead-badge-back.jpg";
 type BadgeAttendee = Pick<EadRegistration, "registrationId" | "name" | "company" | "title" | "email" | "language">;
 export type BadgeFace = "front" | "back";
 
-export function BadgeTemplate({ attendee, face, language }: { attendee: BadgeAttendee; face: BadgeFace; language?: Language }) {
+export function BadgeTemplate({ attendee, face, language, showArt = true }: { attendee: BadgeAttendee; face: BadgeFace; language?: Language; showArt?: boolean }) {
   const selectedLanguage = language ?? attendee.language;
   const faceName = face === "front"
     ? selectedLanguage === "ar" ? "الوجه الأمامي" : "Front"
@@ -15,18 +16,20 @@ export function BadgeTemplate({ attendee, face, language }: { attendee: BadgeAtt
 
   return (
     <div
-      className={`badge-card badge-${face}`}
+      className={`badge-card badge-${face}${!showArt ? " badge-no-art" : ""}`}
       dir={selectedLanguage === "ar" ? "rtl" : "ltr"}
       role="img"
       aria-label={`${faceName} · ${attendee.name} · ${attendee.company}`}
     >
-      <img
-        className="badge-art"
-        src={face === "front" ? FRONT_ART : BACK_ART}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-      />
+      {showArt && (
+        <img
+          className="badge-art"
+          src={face === "front" ? FRONT_ART : BACK_ART}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+        />
+      )}
       {face === "front" && (
         <div className="badge-attendee-panel">
           <div className="badge-attendee-name">{attendee.name || (selectedLanguage === "ar" ? "اسم الحاضر" : "Attendee name")}</div>
@@ -38,12 +41,12 @@ export function BadgeTemplate({ attendee, face, language }: { attendee: BadgeAtt
   );
 }
 
-export function BadgePair({ attendee, language }: { attendee: BadgeAttendee; language?: Language }) {
+export function BadgePair({ attendee, language, showArt = false }: { attendee: BadgeAttendee; language?: Language; showArt?: boolean }) {
   const selectedLanguage = language ?? attendee.language;
   return (
     <div className="print-pair" aria-label={selectedLanguage === "ar" ? "طباعة الشارة" : "Print badge"}>
       <div className="print-sheet print-sheet-front">
-        <BadgeTemplate attendee={attendee} face="front" language={selectedLanguage} />
+        <BadgeTemplate attendee={attendee} face="front" language={selectedLanguage} showArt={showArt} />
       </div>
     </div>
   );
